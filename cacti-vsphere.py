@@ -17,7 +17,7 @@ Variables - yay
 DEBUG = True
 CONFIGFILE = 'vcenters.conf'
 clusters = []
-dumpfile = '/tmp/cacti-hostname-data.json'
+dumpfilepath = '/tmp/'
 
 """
 Validate inputs
@@ -187,18 +187,18 @@ for c in all:
                 elif power == "poweredOff" or power == "suspended":
                     offcount +=1
 
-    if DEBUG: print("Core count: %i" % hostcorecount )                    
-    if DEBUG: print("vmpoweredon: %i" % oncount)
-    if DEBUG: print("vmpoweredoff: %i" % offcount)
-    
-    masterlist[c['moref'].name] = {'hostcorecount': hostcorecount,'vmcorecount':vmcorecount, 'vmpoweredon': oncount, 'vmpoweredoff': offcount}  
+
+    # Calculate pCPU:vCPU ratio
+    cpuratio =  round(float(vmcorecount)/hostcorecount,2)
+    masterlist[c['moref'].name] = {'cpuratio': cpuratio,'vmcorecount':vmcorecount, 'vmpoweredon': oncount, 'vmpoweredoff': offcount}
     if DEBUG: print masterlist
     
     # Reset the counters for the next cluster
     hostcorecount = 0
     oncount = 0
     offcount = 0
-    
+
+dumpfile = dumpfilepath + 'cacti-' + hostname + '-data.json'
 if DEBUG: print("Dumping json to %s" %dumpfile)
 with open(dumpfile, 'w') as outfile:
     json.dump(masterlist, outfile, sort_keys=True, indent=4, encoding="utf-8")
