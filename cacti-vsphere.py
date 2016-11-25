@@ -1,13 +1,14 @@
-from pyVim.connect import SmartConnect, Disconnect
 import atexit
 import ssl
 import os
 import json
 import sys, getopt
-from pyVim import connect 
+import ConfigParser
+from pyVim.connect import SmartConnect, Disconnect
+from pyVim import connect
 from pyVmomi import vim
 from pyVmomi import vmodl
-import ConfigParser
+
 
 
 """
@@ -18,8 +19,19 @@ CONFIGFILE = 'vcenters.conf'
 clusters = []
 dumpfile = '/tmp/cacti-hostname-data.json'
 
-hostarg = sys.argv[1]
+"""
+Validate inputs
+"""
+if not len(sys.argv) < 2:
+   hostarg = sys.argv[1]
 
+else:
+    print("Usage: %s vcenter-hostname" %sys.argv[0])
+    sys.exit(1)
+
+"""
+Read config file
+"""
 # Open and read the config file
 if not os.path.isfile(CONFIGFILE):
     print "Could not open config file: %s " % CONFIGFILE
@@ -38,17 +50,19 @@ except ConfigParser.NoSectionError:
     print 'Could not find host: %s in config file: %s' % (hostarg,CONFIGFILE)
     sys.exit(1)
 
-if DEBUG: print("Hostname: %s username: %s and password: %s" % (hostname,username,password))
+if DEBUG: print("%s @ %s with password: %s" % (username,hostname,password))
+
+"""
+Connect to vCenter
+"""
+if DEBUG: print("Connecting...")
 
 sslContext = ssl.create_default_context()
 sslContext.check_hostname = False
 sslContext.verify_mode = ssl.CERT_NONE
 
-if DEBUG: print("Connecting...")
-
 try:
     service_instance = connect.SmartConnect(host=hostname, user=username, pwd=password,sslContext=sslContext)
-
     content = service_instance.RetrieveContent()
     atexit.register(connect.Disconnect, content)                                                                      
     if DEBUG: print("Connected")
@@ -112,7 +126,7 @@ def get_properties(content, viewType, props, specType):
         retProps = content.propertyCollector.ContinueRetrievePropertiesEx(token=retProps.token)
         totalProps += retProps.objects
     
-    # Destroy the view because it eats Vcenter resources
+    # Destroy the view because it eats vCenter resources
     objView.Destroy()
     
     # Turn the output in retProps into a usable dictionary of values
@@ -145,7 +159,6 @@ offcount = 0
      
 
 for c in all:
-    
     # CLUSTER SECTION
     if DEBUG: print "=== cluster %s ===" % c['moref'].name
     
@@ -192,8 +205,5 @@ with open(dumpfile, 'w') as outfile:
 outfile.close()
     
 
-def main():
-    print("In main()")
-    
-#Disconnect(c)
-if DEBUG: print("Done")
+Disconnect(c)
+if DEBUG: print("Discoonected")
