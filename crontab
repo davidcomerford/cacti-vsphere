@@ -1,0 +1,1 @@
+*/5 * * * * /var/www/html/cacti/scripts/cacti-vsphere.py vcsa
