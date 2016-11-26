@@ -1,1 +1,1 @@
-*/5 * * * * /var/www/html/cacti/scripts/cacti-vsphere.py vcsa
+*/5 * * * * /usr/bin/python /var/www/html/cacti/scripts/cacti-vsphere.py vcenterhostname
