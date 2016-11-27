@@ -10,17 +10,17 @@ from pyVmomi import vim
 from pyVmomi import vmodl
 
 
-
 """
 Variables - yay
 """
 DEBUG = True
-CONFIGFILE = 'vcenters.conf'
+CONFIGPATH = '/var/www/html/cacti/scripts/'
+CONFIGFILE = CONFIGPATH + 'vcenters.conf'
 clusters = []
 dumpfilepath = '/tmp/'
 
 """
-Validate inputs
+Validate arguments
 """
 if not len(sys.argv) < 2:
    hostarg = sys.argv[1]
@@ -32,7 +32,6 @@ else:
 """
 Read config file
 """
-# Open and read the config file
 if not os.path.isfile(CONFIGFILE):
     print "Could not open config file: %s " % CONFIGFILE
     sys.exit(1)
