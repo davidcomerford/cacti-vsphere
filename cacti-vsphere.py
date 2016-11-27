@@ -14,8 +14,7 @@ from pyVmomi import vmodl
 Variables - yay
 """
 DEBUG = True
-CONFIGPATH = '/var/www/html/cacti/scripts/'
-CONFIGFILE = CONFIGPATH + 'vcenters.conf'
+configfile = 'vcenters.conf'
 clusters = []
 dumpfilepath = '/tmp/'
 
@@ -30,15 +29,21 @@ else:
     sys.exit(1)
 
 """
+Find running direction for load config file
+"""
+configfilepath = os.path.dirname(__file__)
+configfile = configfilepath+'/'+configfile
+
+"""
 Read config file
 """
-if not os.path.isfile(CONFIGFILE):
-    print "Could not open config file: %s " % CONFIGFILE
+if not os.path.isfile(configfile):
+    print "Could not open config file: %s " % configfile
     sys.exit(1)
     
 try:
     config = ConfigParser.ConfigParser()
-    config.read(CONFIGFILE)
+    config.read(configfile)
     hostname = config.get(hostarg, 'hostname')
     username = config.get(hostarg, 'username') 
     password = config.get(hostarg, 'password')
@@ -46,10 +51,12 @@ try:
 except ConfigParser.ParsingError, err:
     print 'Could not parse:', err
 except ConfigParser.NoSectionError:
-    print 'Could not find host: %s in config file: %s' % (hostarg,CONFIGFILE)
+    print 'Could not find host: %s in config file: %s' % (hostarg,configfile)
     sys.exit(1)
 
 if DEBUG: print("%s @ %s with password: %s" % (username,hostname,password))
+
+
 
 """
 Connect to vCenter
