@@ -196,7 +196,7 @@ for c in all:
 
     # Calculate pCPU:vCPU ratio
     cpuratio =  round(float(vmcorecount)/hostcorecount,2)
-    masterlist[c['moref'].name] = {'cpuratio': cpuratio,'vmcorecount':vmcorecount, 'vmpoweredon': oncount, 'vmpoweredoff': offcount}
+    masterlist[c['moref'].name] = {'cpuratio': cpuratio, 'vmpoweredon': oncount, 'vmpoweredoff': offcount}
     if DEBUG: print masterlist
     
     # Reset the counters for the next cluster
