@@ -3,7 +3,7 @@
 CACTIPATH="/var/www/html/cacti"
 
 function doTheThings {
-   cp -v cacti-vpshere.py $CACTIPATH/scripts/
+   cp -v cacti-vsphere.py $CACTIPATH/scripts/
    cp -v vcenters.conf $CACTIPATH/scripts/
 }
 
