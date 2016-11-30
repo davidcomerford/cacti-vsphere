@@ -201,6 +201,7 @@ for c in all:
     
     # Reset the counters for the next cluster
     cpuratio =  0
+    vmcorecount = 0
     hostcorecount = 0
     oncount = 0
     offcount = 0
