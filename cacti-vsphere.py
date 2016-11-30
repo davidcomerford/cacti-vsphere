@@ -200,6 +200,7 @@ for c in all:
     if DEBUG: print masterlist
     
     # Reset the counters for the next cluster
+    cpuratio =  0
     hostcorecount = 0
     oncount = 0
     offcount = 0
