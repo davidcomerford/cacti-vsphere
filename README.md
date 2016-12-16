@@ -8,10 +8,12 @@ pyvmomi
 
 gcc
 
+git
+
 
 Install prequisities
 ====================
-yum install gcc
+yum install gcc git
 
 yum install python-pip
 
