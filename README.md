@@ -6,11 +6,13 @@ python >= 2.6.6
 
 pyvmomi
 
-Cacti
+gcc
 
 
 Install prequisities
 ====================
+yum install gcc
+
 yum install python-pip
 
 pip install pyvmomi
