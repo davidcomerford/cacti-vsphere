@@ -2,7 +2,7 @@
 
 Dependencies
 ===========
-python >= 2.6.6
+python >= 2.7
 
 pyvmomi
 
