@@ -19,7 +19,6 @@ yum install python-pip
 
 pip install pyvmomi
 
-pip install requests[security]
 
 How is works
 ===========
